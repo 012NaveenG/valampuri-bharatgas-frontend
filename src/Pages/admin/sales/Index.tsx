@@ -30,8 +30,8 @@ import {
 } from "@/components/ui/table"
 import {  useCallback, useState } from "react"
 import axios from "axios"
-import { exportDataToExcel } from "@/hooks/download-excel-data"
-import DatePickerWithRange from "./DateRangePicker"
+import { exportDataToExcel } from "@/hooks/download-excel-data.ts"
+import DatePickerWithRange from "./DateRangePicker.tsx"
 import { format } from "date-fns"
 // Updated Type
 type SaleData = {

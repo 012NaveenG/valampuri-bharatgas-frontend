@@ -19,12 +19,12 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/Navbar.tsx";
 import axios from "axios";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Btnloader from "@/components/Btnloader";
-import { setItemWithExpiry } from "@/middleware/localstorage.middleware";
+import Btnloader from "@/components/Btnloader.tsx";
+import { setItemWithExpiry } from "@/middleware/localstorage.middleware.ts";
 
 
 

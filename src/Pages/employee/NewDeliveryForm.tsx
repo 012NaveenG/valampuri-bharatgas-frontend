@@ -35,7 +35,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { useToast } from "@/hooks/use-toast";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Btnloader from "@/components/Btnloader";
+import Btnloader from "@/components/Btnloader.tsx";
 import { z } from "zod";
 import axios from "axios";
 import { DialogClose, DialogDescription } from "@radix-ui/react-dialog";
