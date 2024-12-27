@@ -16,7 +16,7 @@ export default defineConfig({
       '/api': {
         target: 'https://valampuri-bharatgas-backend.onrender.com',
         changeOrigin: true,
-        secure: false, // Use only if SSL issue hai
+        secure: false, 
       }
     },
     host: true, // Or specify the IP address like '192.168.x.x'

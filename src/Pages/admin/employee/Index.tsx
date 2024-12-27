@@ -32,6 +32,7 @@ import { useEffect, useState } from "react"
 import axios from "axios"
 import { exportDataToExcel } from "@/hooks/download-excel-data"
 import EditEmployee from "./EditEmployee.tsx"
+import AddEmployee from "./AddEmployee.tsx"
 
 // Updated Type
 export type Employee = {
@@ -155,6 +156,7 @@ const Index = () => {
                     size={"sm"}
                     onClick={downloadData}
                 >Download</Button>
+                <AddEmployee/>
             </div>
 
 

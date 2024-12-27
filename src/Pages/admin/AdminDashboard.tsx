@@ -10,7 +10,7 @@ const AdminDashboard = () => {
     return (
         <div >
             <Navbar/>
-            <Tabs defaultValue="customers" className="w-full  p-4">
+            <Tabs defaultValue="employee" className="w-full  p-4">
                 <TabsList>
                     <TabsTrigger value="overview">overview</TabsTrigger>
                     <TabsTrigger value="customers">customers</TabsTrigger>
