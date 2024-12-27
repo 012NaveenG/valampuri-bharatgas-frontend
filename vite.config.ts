@@ -14,8 +14,9 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        // target: 'http://localhost:4000'
-        target: 'https://valampuri-bharatgas-backend.onrender.com'
+        target: 'https://valampuri-bharatgas-backend.onrender.com',
+        changeOrigin: true,
+        secure: false, // Use only if SSL issue hai
       }
     },
     host: true, // Or specify the IP address like '192.168.x.x'
