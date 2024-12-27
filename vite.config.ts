@@ -15,7 +15,7 @@ export default defineConfig({
     proxy: {
       '/api': {
         // target: 'http://localhost:4000'
-        target: 'https://valampuri-bharatgas-backend.vercel.app/'
+        target: 'https://valampuri-bharatgas-backend.onrender.com'
       }
     },
     host: true, // Or specify the IP address like '192.168.x.x'
