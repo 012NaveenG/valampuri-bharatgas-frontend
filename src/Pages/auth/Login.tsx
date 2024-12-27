@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/card";
 import Navbar from "@/components/Navbar.tsx";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Btnloader from "@/components/Btnloader.tsx";
 import { setItemWithExpiry } from "@/middleware/localstorage.middleware.ts";
@@ -49,7 +49,6 @@ const Login: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const { toast } = useToast();
     const navigate = useNavigate();
-    const [data, setData] = useState(null);
 
     // Initialize React Hook Form
     const form = useForm<LoginFormValues>({
@@ -97,21 +96,7 @@ const Login: React.FC = () => {
         }
     };
 
-    useEffect(() => {
-
-        const fetchData = async () => {
-            try {
-                const response = await axios.get("/api/admin/customer/?page=1&limit=5");
-                setData(response.data.data);
-             
-            } catch (error) {
-                console.error("Error fetching data: ", error);
-            }
-        }
-        fetchData();
-    }, []);
-
-    console.dir(data)
+  
 
     return (
         <>
