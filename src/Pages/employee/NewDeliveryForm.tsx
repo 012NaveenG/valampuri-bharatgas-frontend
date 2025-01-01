@@ -28,7 +28,6 @@ import Btnloader from "@/components/Btnloader.tsx";
 import { z } from "zod";
 import axios from "axios";
 import { DialogClose, DialogDescription } from "@radix-ui/react-dialog";
-import { SelectGroup } from "@radix-ui/react-select";
 
 // Define the types for customers
 type Customer = {
@@ -140,7 +139,7 @@ const NewDeliveryForm: React.FC<NewDeliveryFormProps> = ({ emp_id, truck_id, onD
 
     return (
         <>
-            <Dialog>
+            <Dialog onOpenChange={setOpen} open={open} >
                 <DialogTrigger asChild>
                     <Button >New Delivery</Button>
                 </DialogTrigger>
