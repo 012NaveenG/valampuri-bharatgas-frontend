@@ -56,13 +56,13 @@ const AreaGraph: React.FC<AreaGraphProps> = ({ monthlySales }) => {
         <CardTitle>Sales - {currentYear}</CardTitle>
 
       </CardHeader>
-      <CardContent>
+      <CardContent className="border-t">
         <ChartContainer config={chartConfig}>
           <BarChart
             accessibilityLayer
             data={chartData}
             margin={{
-              top: 20,
+              top: 40,
             }}
           >
             <CartesianGrid vertical={false} />

@@ -1,4 +1,4 @@
-import React, {  useState } from "react"
+import React, { useState } from "react";
 import {
     ColumnDef,
     ColumnFiltersState,
@@ -10,9 +10,9 @@ import {
     getPaginationRowModel,
     getSortedRowModel,
     useReactTable,
-} from "@tanstack/react-table"
-import { ArrowUpDown } from "lucide-react"
-import { Button } from "@/components/ui/button"
+} from "@tanstack/react-table";
+import { ArrowUpDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
     Table,
     TableBody,
@@ -20,69 +20,83 @@ import {
     TableHead,
     TableHeader,
     TableRow,
-} from "@/components/ui/table"
-import { Card } from "@/components/ui/card"
+} from "@/components/ui/table";
+import { Card, CardHeader } from "@/components/ui/card";
 
 // Sale type definition
 export type Sale = {
-    id: string
-    received_amount: number
-    delivered_to: string
-    delivered_by: string
-    total_amount: number
-}
+    sale_id: string;
+    delivered_by: string;
+    delivered_to: string;
+    truck_id: string;
+    full_delivered: number;
+    empty_delivered: number;
+    empty_received: number;
+    total_amount_received: number;
+    bal_payment: number;
+    payment_mode: string;
+    created_at: string;
+    Customer: {
+        cust_id: string;
+        cust_name: string;
+    };
+    Employee: {
+        emp_id: string;
+        emp_name: string;
+    };
+};
 
 // Column definitions with types
 const columns: ColumnDef<Sale>[] = [
     {
-        accessorKey: "id",
+        accessorKey: "sale_id",
         header: "Sr. No",
         cell: ({ row }) => <div className="ml-5">{row.index + 1}</div>, // Add 1 to the index to make it 1-based
     },
     {
-        accessorKey: "delivered_to",
+        accessorKey: "Customer.cust_name",
         header: "Customer",
-        cell: ({ row }) => <div className="capitalize">{row.getValue("delivered_to")}</div>,
+        cell: ({ row }) => <div className="capitalize">{row.original.Customer.cust_name}</div>,
     },
     {
-        accessorKey: "delivered_by",
+        accessorKey: "Employee.emp_name",
         header: "Delivery Man",
-        cell: ({ row }) => <div className="capitalize">{row.getValue("delivered_by")}</div>,
+        cell: ({ row }) => <div className="capitalize">{row.original.Employee.emp_name}</div>,
     },
     {
-        accessorKey: "total_amount",
+        accessorKey: "total_amount_received",
         header: "Total Amount",
         cell: ({ row }) => {
-            const amount = parseFloat(row.getValue("total_amount"))
+            const amount = parseFloat(row.getValue("total_amount_received"));
             const formatted = new Intl.NumberFormat("en-US", {
                 style: "currency",
                 currency: "INR",
-            }).format(amount)
+            }).format(amount);
 
-            return <div className="font-medium">{formatted}</div>
+            return <div className="font-medium">{formatted}</div>;
         },
     },
     {
-        accessorKey: "received_amount",
+        accessorKey: "bal_payment",
         header: ({ column }) => (
             <div className="flex items-center">
                 <Button variant="ghost" onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-                    Received Amount
+                    Balance Payment
                     <ArrowUpDown />
                 </Button>
             </div>
         ),
         cell: ({ row }) => {
-            const amount = parseFloat(row.getValue("received_amount"))
+            const amount = parseFloat(row.getValue("bal_payment"));
             const formatted = new Intl.NumberFormat("en-US", {
                 style: "currency",
                 currency: "INR",
-            }).format(amount)
+            }).format(amount);
 
-            return <div className="font-medium ml-5">{formatted}</div>
+            return <div className="font-medium ml-5">{formatted}</div>;
         },
     },
-]
+];
 
 // Prop type definition for the component
 interface SalesTableProps {
@@ -90,10 +104,10 @@ interface SalesTableProps {
 }
 
 const SalesTable: React.FC<SalesTableProps> = ({ todaysSales }) => {
-    const [sorting, setSorting] = useState<SortingState>([])
-    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([])
-    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
-    const [rowSelection, setRowSelection] = useState({})
+    const [sorting, setSorting] = useState<SortingState>([]);
+    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
+    const [rowSelection, setRowSelection] = useState({});
 
     const table = useReactTable({
         data: todaysSales, // Use today's sales data passed as a prop
@@ -112,11 +126,12 @@ const SalesTable: React.FC<SalesTableProps> = ({ todaysSales }) => {
             columnVisibility,
             rowSelection,
         },
-    })
+    });
 
     return (
-        <Card className="w-full h-full p-2">
+        <Card className="w-full h-full px-2">
             <div>
+            <CardHeader>Today's Sales</CardHeader>
                 <div className="rounded-md border">
                     <Table>
                         <TableHeader>
@@ -165,7 +180,7 @@ const SalesTable: React.FC<SalesTableProps> = ({ todaysSales }) => {
                 </div>
             </div>
         </Card>
-    )
-}
+    );
+};
 
-export default SalesTable
+export default SalesTable;

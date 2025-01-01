@@ -12,16 +12,7 @@ import {
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Check, ChevronsUpDown } from "lucide-react";
-import { cn } from "@/lib/utils";
-import {
-    Command,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-    CommandList,
-} from "@/components/ui/command";
+
 
 import {
     Select,
@@ -30,8 +21,6 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { useToast } from "@/hooks/use-toast";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -39,6 +28,7 @@ import Btnloader from "@/components/Btnloader.tsx";
 import { z } from "zod";
 import axios from "axios";
 import { DialogClose, DialogDescription } from "@radix-ui/react-dialog";
+import { SelectGroup } from "@radix-ui/react-select";
 
 // Define the types for customers
 type Customer = {
@@ -69,12 +59,12 @@ type NewDeliveryFormProps = {
     onDeliveryAdded: () => void
 };
 
+
 const NewDeliveryForm: React.FC<NewDeliveryFormProps> = ({ emp_id, truck_id, onDeliveryAdded }) => {
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const { toast } = useToast();
     const [open, setOpen] = useState(false);
-    const [selectedCustomer, setSelectedCustomer] = useState<string>(""); // Selected customer ID
     const [customers, setCustomers] = useState<Customer[]>([]); // Customer list
     const paymentMode = ["UPI", "Cash", "Both"]
 
@@ -105,7 +95,7 @@ const NewDeliveryForm: React.FC<NewDeliveryFormProps> = ({ emp_id, truck_id, onD
         const fetchCustomers = async () => {
             try {
                 const response = await axios.get("/api/admin/customer");
-                setCustomers(response.data.data.customers); // Use the nested structure
+                setCustomers(response.data?.data); // Use the nested structure
             } catch (err) {
                 console.error("Failed to fetch customers:", err);
             }
@@ -133,7 +123,6 @@ const NewDeliveryForm: React.FC<NewDeliveryFormProps> = ({ emp_id, truck_id, onD
                     description: "Cylinder delivered successfully.",
                 });
                 form.reset();
-                setSelectedCustomer(""); // Reset customer selection
                 setOpen(false)
                 onDeliveryAdded()
             } else {
@@ -156,7 +145,7 @@ const NewDeliveryForm: React.FC<NewDeliveryFormProps> = ({ emp_id, truck_id, onD
                     <Button >New Delivery</Button>
                 </DialogTrigger>
                 <DialogContent>
-                    <ScrollArea className="h-[500px] w-[350px] sm:max-w-[425px] rounded-md ">
+                    <ScrollArea className="h-[500px] w-full sm:max-w-[425px] rounded-md p-4">
                         <DialogHeader>
                             <DialogTitle>Delivery Details</DialogTitle>
                             <DialogDescription>
@@ -176,50 +165,31 @@ const NewDeliveryForm: React.FC<NewDeliveryFormProps> = ({ emp_id, truck_id, onD
                                     render={({ field }) => (
                                         <FormItem>
                                             <FormLabel>Shop Name</FormLabel>
-                                            <Popover open={open} onOpenChange={setOpen}>
-                                                <PopoverTrigger asChild>
-                                                    <Button
-                                                        variant="outline"
-                                                        role="combobox"
-                                                        aria-expanded={open}
-                                                        className="w-full justify-between"
+                                            <FormControl >
+                                                <div className="px-1">
+                                                    <Select
+                                                        onValueChange={field.onChange}
+                                                        defaultValue={field.value}
                                                     >
-                                                        {selectedCustomer
-                                                            ? customers.find((customer) => customer.cust_id === selectedCustomer)?.cust_name
-                                                            : "Select a customer..."}
-                                                        <ChevronsUpDown className="opacity-50" />
-                                                    </Button>
-                                                </PopoverTrigger>
-                                                <PopoverContent className="w-full p-0">
-                                                    <Command>
-                                                        <CommandInput placeholder="Search customer..." />
-                                                        <CommandList>
-                                                            <CommandEmpty>No customer found.</CommandEmpty>
-                                                            <CommandGroup>
-                                                                {customers.map((customer) => (
-                                                                    <CommandItem
-                                                                        key={customer.cust_id}
-                                                                        value={customer.cust_id}
-                                                                        onSelect={() => {
-                                                                            field.onChange(customer.cust_id);
-                                                                            setSelectedCustomer(customer.cust_id);
-                                                                            setOpen(false);
-                                                                        }}
-                                                                    >
-                                                                        {customer.cust_name}
-                                                                        <Check
-                                                                            className={cn(
-                                                                                "ml-auto",
-                                                                                selectedCustomer === customer.cust_id ? "opacity-100" : "opacity-0"
-                                                                            )}
-                                                                        />
-                                                                    </CommandItem>
-                                                                ))}
-                                                            </CommandGroup>
-                                                        </CommandList>
-                                                    </Command>
-                                                </PopoverContent>
-                                            </Popover>
+                                                        <SelectTrigger className="w-full">
+                                                            <SelectValue placeholder="Selct a customer" />
+                                                        </SelectTrigger>
+                                                        <SelectContent>
+                                                            {customers && customers.map((customer) => (
+                                                                <SelectItem key={customer.cust_id} value={customer.cust_id} onClick={() => {
+                                                                    field.onChange(customer.cust_id);
+                                                                }}>
+                                                                    {customer.cust_name}
+                                                                </SelectItem>
+                                                            ))}
+                                                        </SelectContent>
+                                                    </Select>
+                                                </div>
+
+
+                                            </FormControl>
+
+                                            <FormMessage />
                                         </FormItem>
                                     )}
                                 />

@@ -22,7 +22,7 @@ export default function DatePickerWithRange({
 }: DatePickerWithRangeProps) {
     const [date, setDate] = useState<DateRange | undefined>({
         from: addDays(new Date(), -7),
-        to: new Date(),
+        to: addDays(new Date(), +1),
     })
 
     // Call the parent's callback function whenever the date range changes

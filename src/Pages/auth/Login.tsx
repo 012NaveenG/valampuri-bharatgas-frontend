@@ -84,6 +84,22 @@ const Login: React.FC = () => {
                 }
             }
 
+            if(response.data.statusCode === 409){
+                setItemWithExpiry("signedIn", response.data?.data, 12)
+
+                toast({
+                    title: "Login Successful",
+                    description: "Welcome back!",
+                });
+
+                // Navigate based on user role
+                if (response.data.data?.isAdmin === true) {
+                    navigate("/admin");
+                } else {
+                    navigate("/employee/dashboard");
+                }
+            }
+
         } catch (err: unknown) {
             // Handle backend error response
             const axiosError = err as { response?: { data?: { message?: string } } };

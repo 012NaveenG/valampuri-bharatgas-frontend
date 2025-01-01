@@ -74,7 +74,7 @@ const EmployeeDashboard = () => {
         const response = await axios.get(
           `/api/employee/delivery/${signedEmployee?.emp_id}`
         );
-        if (response.data.statusCode === 200) {
+        if (response.data?.statusCode === 200) {
           setDeliveries(response.data.data);
         }
       } catch (error) {
