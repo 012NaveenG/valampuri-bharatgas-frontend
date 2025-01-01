@@ -14,8 +14,8 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        // target: 'https://valampuri-bharatgas-backend.onrender.com',
-        target: 'http://localhost:4000/',
+        target: 'https://valampuri-bharatgas-backend.onrender.com',
+        // target: 'http://localhost:4000/',
         changeOrigin: true,
         secure: false, 
       }
