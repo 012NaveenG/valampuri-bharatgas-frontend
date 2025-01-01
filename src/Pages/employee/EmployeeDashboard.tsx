@@ -153,9 +153,9 @@ const EmployeeDashboard = () => {
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[100px]">Sr.No</TableHead>
-                <TableHead>Customer</TableHead>
-                <TableHead>Full Del</TableHead>
-                <TableHead className="text-right">Empty Del</TableHead>
+                <TableHead>Customer/Shop</TableHead>
+                <TableHead>Full Delivered</TableHead>
+                <TableHead className="text-right">Empty Delivered</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
